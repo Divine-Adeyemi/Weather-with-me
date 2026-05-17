@@ -59,37 +59,46 @@ export function WeatherForecast({ data }: WeatherForecastProps) {
           {nextDays.map((day) => (
             <div
               key={day.date}
-              className="grid grid-cols-3 items-center gap-4 rounded-lg border p-4"
+              className="flex items-center justify-between gap-4 rounded-lg border p-4"
             >
-              <div>
-                <p className="font-medium">
+              {/* LEFT SIDE: Date & Description */}
+              <div className="min-w-0 flex-1">
+                <p className="font-medium text-sm sm:text-base whitespace-nowrap">
                   {format(new Date(day.date * 1000), "EEE, MMM d")}
                 </p>
-                <p className="text-sm text-muted-foreground capitalize">
+                <p className="text-xs sm:text-sm text-muted-foreground capitalize truncate">
                   {day.weather.description}
                 </p>
               </div>
 
-              <div className="flex justify-center gap-4">
-                <span className="flex items-center text-blue-500">
-                  <ArrowDown className="mr-1 h-4 w-4" />
-                  {formatTemp(day.temp_min)}
-                </span>
-                <span className="flex items-center text-red-500">
-                  <ArrowUp className="mr-1 h-4 w-4" />
-                  {formatTemp(day.temp_max)}
-                </span>
-              </div>
+              {/* RIGHT SIDE: Weather Data Wrapper */}
+              {/* flex-col: Stacks info on mobile | sm:flex-row: Displays side-by-side on desktop */}
+              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-6 md:gap-8">
+                
+                {/* Temperatures Block */}
+                <div className="flex items-center gap-2 text-xs sm:text-sm">
+                  <span className="flex items-center text-blue-500 whitespace-nowrap">
+                    <ArrowDown className="mr-0.5 h-3.5 w-3.5 sm:mr-1 sm:h-4 sm:w-4" />
+                    {formatTemp(day.temp_min)}
+                  </span>
+                  <span className="flex items-center text-red-500 whitespace-nowrap">
+                    <ArrowUp className="mr-0.5 h-3.5 w-3.5 sm:mr-1 sm:h-4 sm:w-4" />
+                    {formatTemp(day.temp_max)}
+                  </span>
+                </div>
 
-              <div className="flex justify-end gap-4">
-                <span className="flex items-center gap-1">
-                  <Droplets className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">{day.humidity}%</span>
-                </span>
-                <span className="flex items-center gap-1">
-                  <Wind className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm">{day.wind}m/s</span>
-                </span>
+                {/* Metrics Block (Humidity & Wind) */}
+                <div className="flex items-center gap-3 text-xs sm:text-sm text-muted-foreground sm:text-foreground">
+                  <span className="flex items-center gap-1 whitespace-nowrap">
+                    <Droplets className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-500" />
+                    <span>{day.humidity}%</span>
+                  </span>
+                  <span className="flex items-center gap-1 whitespace-nowrap">
+                    <Wind className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-blue-500" />
+                    <span>{day.wind}m/s</span>
+                  </span>
+                </div>
+
               </div>
             </div>
           ))}
